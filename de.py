@@ -67,3 +67,40 @@ class Serpiente(object):
         cabeza = self.serpiente[0]
         mover = Serpiente.movimientos[direccion]
         self.serpiente = [[cabeza[0] + mover[0], cabeza[1] + mover[1]]] + self.serpiente[:-1]
+
+
+
+
+class Juego(object):
+
+    def __init__(self, tablero: list, serpiente: list):
+        self.tablero = Tablero(*tablero)
+        self.serpiente = Serpiente(serpiente)
+
+    def movimiento_serpiente(self, direccion):
+        self.serpiente.movimiento_serpiente(direccion, self.tablero)
+
+    def movimientos(self):
+        return self.serpiente.det(self.tablero)
+
+    def copiar(self):
+        return Juego([self.tablero.ancho, self.tablero.alto], self.serpiente.serpiente)
+
+
+
+def numeroDeCaminosDiferentesDisponibles(tablero, serpient, profundidad):
+    juego = Juego(tablero, serpient)
+    return caminos_disponibles(juego, profundidad)
+    
+
+def caminos_disponibles(juego: Juego, profundidad):
+    if profundidad == 1:
+        return len(juego.movimientos())  
+    if profundidad == 0:
+        return 0
+    total_caminos = 0  
+    for mover in juego.movimientos():
+        copiar_juego = juego.copiar()
+        copiar_juego.movimiento_serpiente(mover)
+        total_caminos += caminos_disponibles(copiar_juego, profundidad - 1)
+    return total_caminos

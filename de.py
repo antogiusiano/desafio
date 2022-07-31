@@ -1,3 +1,6 @@
+import unittest
+
+
 class Tablero(object):
 
     def __init__(self, ancho: int, alto: int):
@@ -104,3 +107,47 @@ def caminos_disponibles(juego: Juego, profundidad):
         copiar_juego.movimiento_serpiente(mover)
         total_caminos += caminos_disponibles(copiar_juego, profundidad - 1)
     return total_caminos
+
+
+
+class TestDesafio(unittest.TestCase):
+
+    def test1(self):
+        n = 1
+        tablero = [4,3]
+        serpiente = [[2,2],  [3,2],  [3,1],  [3,0],  [2,0],  [1,0],  [0,0]]
+        profundidad = 3
+        resultado = 7
+
+        caminos = numeroDeCaminosDiferentesDisponibles(tablero, serpiente, profundidad)
+        self.assertEqual(resultado, caminos, f"El resultado deberia ser {resultado} en lugar de {caminos}")
+        print_results(n, tablero, serpiente, profundidad, caminos)
+
+    def test2(self):
+        n = 2
+        tablero = [2, 3]
+        serpiente = [[0,2],  [0,1],  [0,0],  [1,0],  [1,1],  [1,2]]
+        profundidad = 10
+        resultado = 1
+
+        caminos = numeroDeCaminosDiferentesDisponibles(tablero, serpiente, profundidad)
+        self.assertEqual(resultado, caminos, f"El resultado deberia ser {resultado} en lugar de {caminos}")
+        print_results(n, tablero, serpiente, profundidad, caminos)
+
+    def test3(self):
+        n = 3
+        tablero = [10, 10]
+        serpiente = [[5,5],  [5,4],  [4,4],  [4,5]]
+        profundidad = 4
+        resultado = 81
+
+        caminos = numeroDeCaminosDiferentesDisponibles(tablero, serpiente, profundidad)
+        self.assertEqual(resultado, caminos, f"El resultado deberia ser {resultado} en lugar de {caminos}")
+        print_results(n, tablero, serpiente, profundidad, caminos)
+
+def print_results(n, tablero, serpiente, profundidad, caminos):
+    print((f"Test {n}: \n\t- tablero: \"{tablero}\"\n\t- serpiente: \"{serpiente}\""
+        f"\n\t- profundidad: \"{profundidad}\" \nTotal caminos disponibles: \"{caminos}\"\n\n"))
+
+if __name__ == "__main__":
+    unittest.main()
